@@ -1,69 +1,211 @@
-# Landscape AI Classifier — Deep Learning UTS
+# Image Classifier
+**KELOMPOK 8:**
+Dafa Aditya Nazwan Priyadi – 231111548
+M. Sendy Aulia – 231111455
+M. Alief Mufthi – 231111319
+Rasidin Harahap – 231110869
+ Ade Kurnia Setialu - 231110333
 
-Project ini menghubungkan penelitian klasifikasi citra enam kelas Intel Image Classification dengan aplikasi Streamlit untuk demonstrasi inference dua model.
 
-## Struktur proyek
+## 1. Project Overview
+
+Sistem melakukan klasifikasi gambar ke dalam enam kategori:
+
+- Buildings
+- Forest
+- Glacier
+- Mountain
+- Sea
+- Street
+
+**Model yang digunakan:**
+
+| Model | Metode |
+|---|---|
+| Custom CNN | Training from scratch |
+| MobileNetV2 | Transfer learning dan fine-tuning |
+
+## 2. Dataset
+
+Dataset yang digunakan adalah **Intel Image Classification Dataset**.
+
+- [Dataset Intel Image Classification – Kaggle](https://www.kaggle.com/datasets/puneet6060/intel-image-classification)
+- [Dataset Mirror – Hugging Face](https://huggingface.co/datasets/sfarrukhm/intel-image-classification)
+
+Dataset memiliki enam kelas gambar. Data training digunakan untuk proses pelatihan dan validasi, sedangkan data testing digunakan sebagai data evaluasi akhir.
+
+Gambar prediction tanpa label tidak digunakan dalam evaluasi supervised learning.
+
+## 3. Model Architecture and Experiments
+
+Penelitian membandingkan empat skenario eksperimen:
+
+| Eksperimen | Model | Konfigurasi |
+|---|---|---|
+| E1 | Custom CNN | Tanpa augmentasi |
+| E2 | Custom CNN | Dengan augmentasi |
+| E3 | MobileNetV2 | Feature extraction |
+| E4 | MobileNetV2 | Fine-tuning 30 layer terakhir |
+
+Seleksi model terbaik dilakukan berdasarkan Validation Macro F1. Data testing digunakan untuk evaluasi akhir.
+
+**Konfigurasi utama:**
+- Input image: 150 × 150 pixels
+- Color mode: RGB
+- Jumlah kelas: 6
+- Optimizer: Adam
+- Loss function: Sparse Categorical Crossentropy
+- Evaluasi: Accuracy, Precision, Recall, Macro F1-score, dan Confusion Matrix.
+
+## 4. Project Structure
 
 ```text
-Landscape_AI_Classifier/
+imageclassification/
+│
+├── .streamlit/
+│   └── config.toml
+│
+├── assets/
+│   └── logo.png
+│
+├── guides/
+│   └── PANDUAN_TAHAP_1_2_3.md
+│
+├── models/
+│   ├── best_overall_model.keras
+│   ├── custom_cnn_best.keras
+│   └── mobilenetv2_best.keras
+│
+├── notebooks/
+│   └── Kelompok8_Image_Classification.ipynb
+│
+├── results/
+│   ├── class_names.json
+│   ├── dataset_class_summary.csv
+│   ├── experiment_summary.json
+│   ├── model_selection.json
+│   ├── validation_metrics.csv
+│   ├── test_metrics_all_experiments.csv
+│   ├── training_curves_all_experiments.png
+│   ├── confusion_matrix_best_model.png
+│   ├── misclassified_examples.png
+│   └── training history E1–E4
+│
 ├── app.py
 ├── requirements.txt
-├── requirements-ui-only.txt
 ├── requirements-models.txt
+├── requirements-ui-only.txt
 ├── run_app.bat
-├── assets/logo.png
-├── models/                 # model hasil Google Colab diletakkan di sini
-├── results/                # metrik, grafik, confusion matrix, metadata
-├── notebooks/
-│   └── Intel_Landscape_Classification_Tahap1_2_AUTO_DOWNLOAD.ipynb
-├── guides/PANDUAN_TAHAP_1_2_3.md
-└── .streamlit/config.toml
+├── README.md
+└── .gitignore
 ```
 
-## Tahap 1–2: jalankan notebook
+## 5. Model Evaluation
 
-1. Buka [Google Colab](https://colab.research.google.com/).
-2. Upload notebook dari folder `notebooks/` ke Colab.
-3. Pilih Runtime → Change runtime type → T4 GPU jika tersedia.
-4. Jalankan semua cell dari atas berurutan.
-5. Gunakan file dengan nama `AUTO_DOWNLOAD` (bukan notebook lama yang meminta `kaggle.json`). Dataset diunduh otomatis dari mirror publik Hugging Face. Notebook tidak meminta `kaggle.json` dan tidak menampilkan `files.upload()` untuk dataset.
-6. Izinkan akses Google Drive saat diminta untuk menyimpan checkpoint dan hasil di `MyDrive/landscape_dl_project`.
-7. Jalankan eksperimen E1–E4, evaluasi validation dan test, lalu unduh `landscape_ai_classifier_artifacts.zip` dari cell terakhir.
+Evaluasi dilakukan terhadap empat eksperimen E1–E4 menggunakan data testing yang sama.
 
-Dataset: [Intel Image Classification di Kaggle](https://www.kaggle.com/datasets/puneet6060/intel-image-classification). Mirror otomatis: [Hugging Face dataset](https://huggingface.co/datasets/sfarrukhm/intel-image-classification). Dataset mirror memiliki folder `seg_train`, `seg_test`, serta enam kelas Buildings, Forest, Glacier, Mountain, Sea, dan Street. Hanya folder train/test berlabel yang dipakai untuk supervised learning.
+Hasil evaluasi disimpan dalam folder `results/`, meliputi:
 
-## Tahap 3: hubungkan model dan jalankan aplikasi
+- Accuracy, Precision, Recall, dan Macro F1-score.
+- Confusion Matrix.
+- Training dan Validation Curves.
+- Riwayat training setiap eksperimen.
+- Analisis kesalahan klasifikasi.
+- Ringkasan pemilihan model terbaik.
 
-1. Ekstrak `landscape_ai_classifier_artifacts.zip` yang diunduh dari Colab.
-2. Gabungkan folder `models/` dan `results/` ke folder proyek ini.
-3. Di CMD/PowerShell yang sedang berada di folder proyek, jalankan:
+Nilai metrik akhir dapat dilihat pada file `test_metrics_all_experiments.csv` dan `experiment_summary.json`.
 
-```powershell
+## 6. Application Features
+
+Aplikasi web dikembangkan menggunakan Streamlit dengan fitur:
+
+1. Splash screen dan onboarding.
+2. Dashboard pengenalan proyek.
+3. Upload gambar untuk klasifikasi.
+4. Prediksi otomatis menggunakan Custom CNN dan MobileNetV2.
+5. Perbandingan hasil prediksi kedua model.
+6. Visualisasi probabilitas enam kelas.
+7. Informasi arsitektur dan eksperimen Deep Learning.
+8. Halaman evaluasi performa model.
+9. Download laporan hasil prediksi dalam format PDF.
+
+Aplikasi menggunakan checkpoint model hasil training Google Colab. Prediksi hanya dilakukan menggunakan model yang telah dilatih.
+
+## 7. Installation and Usage
+
+### Requirements
+
+- Python 3.13 (atau versi yang sesuai dengan dependensi).
+- pip.
+- Git.
+- Model checkpoint hasil training.
+
+### Install Dependencies
+
+Clone repository:
+
+```bash
+git clone https://github.com/USERNAME/imageclassification.git
+```
+
+Masuk ke folder proyek:
+
+```bash
+cd imageclassification
+```
+
+Install dependensi aplikasi:
+
+```bash
 py -m pip install -r requirements.txt
+```
+
+Install dependensi model untuk menjalankan inference:
+
+```bash
+py -m pip install -r requirements-models.txt
+```
+
+### Run Application
+
+Jalankan aplikasi menggunakan:
+
+```bash
 py -m streamlit run app.py
 ```
 
-Aplikasi menerima satu gambar uji baru. Upload di aplikasi adalah **input inference**, bukan dataset training. Dengan kedua checkpoint tersedia, Custom CNN dan MobileNetV2 memproses gambar yang sama, menampilkan prediksi dan distribusi skor, lalu menyediakan laporan PDF.
+Atau pada Windows, gunakan:
 
-Sebelum checkpoint tersedia, halaman Prediksi tetap menampilkan upload, preview, informasi preprocessing, alur arsitektur, dan penjelasan E1–E4. Aplikasi tidak membuat angka prediksi palsu.
+```text
+run_app.bat
+```
 
-## Arsitektur & eksperimen
+Aplikasi akan berjalan secara lokal melalui browser.
 
-- **E1:** Custom CNN tanpa augmentasi (baseline from scratch).
-- **E2:** Custom CNN dengan augmentasi.
-- **E3:** MobileNetV2 pretrained ImageNet, backbone dibekukan (feature extraction).
-- **E4:** MobileNetV2 fine-tuning 30 layer terakhir; Batch Normalization tetap dibekukan.
+## 8. Deployment
 
-Input 150×150 RGB. `seg_train` dibagi stratified 80:20 menjadi training-validation. `seg_test` dipakai sebagai holdout test. Seleksi model berdasarkan validation Macro F1; test dipakai untuk evaluasi final.
+Aplikasi dapat dideploy menggunakan Streamlit Community Cloud.
 
-## GitHub dan deployment publik
+1. Siapkan repository GitHub.
+2. Buka [Streamlit Community Cloud](https://share.streamlit.io/).
+3. Hubungkan akun GitHub.
+4. Pilih repository `imageclassification`.
+5. Pilih branch `main`.
+6. Tentukan file utama `app.py`.
+7. Selesaikan proses deployment.
 
-Upload isi folder proyek ini ke repository GitHub. Pastikan `app.py` dan `requirements.txt` berada di root repository. Model `.keras` dan artefak evaluasi tidak diabaikan oleh `.gitignore` karena diperlukan aplikasi; dataset mentah dan ZIP sementara tidak diikutkan.
+Dokumentasi resmi: [Streamlit Deployment Guide](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy).
 
-Setelah repository GitHub siap, buka [Streamlit Community Cloud](https://share.streamlit.io/), pilih **Create app**, repository, branch `main`, dan entrypoint `app.py`. Community Cloud akan memberi URL publik `*.streamlit.app`. Lihat [panduan deployment resmi](https://docs.streamlit.io/deploy/streamlit-community-cloud/deploy-your-app/deploy).
+## 9. Author and Project Information
 
-Sebelum mengunggah model, periksa ukuran masing-masing file. Jika satu file melebihi batas Git biasa, gunakan Git LFS atau simpan artefak model di hosting terpisah dan sesuaikan proses unduh di aplikasi.
+**Project:** Landscape AI Classifier  
+**Subject:** Deep Learning  
+**Project Type:** UTS  
+**Dataset:** Intel Image Classification  
+**Framework:** TensorFlow / Keras  
+**Web Framework:** Streamlit  
+**Repository:** `imageclassification`
 
-## Status pekerjaan
+---
 
-Source code notebook dan aplikasi sudah disiapkan serta diperiksa sintaks/struktur. **Training aktual belum terjadi sampai notebook dijalankan di Google Colab.** Model, metrik, dan hasil prediksi hanya dianggap sah setelah proses training/evaluasi itu selesai.
+*Landscape AI Classifier — Deep Learning Project.*
