@@ -1,10 +1,14 @@
 # Image Classifier
 **KELOMPOK 8:**
 Dafa Aditya Nazwan Priyadi – 231111548
+
 M. Sendy Aulia – 231111455
+
 M. Alief Mufthi – 231111319
+
 Rasidin Harahap – 231110869
- Ade Kurnia Setialu - 231110333
+
+Ade Kurnia Setialu - 231110333
 
 
 ## 1. Project Overview
