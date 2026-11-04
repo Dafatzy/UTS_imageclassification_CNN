@@ -1,5 +1,6 @@
 # Image Classifier
 **KELOMPOK 8:**
+
 Dafa Aditya Nazwan Priyadi – 231111548
 
 M. Sendy Aulia – 231111455
