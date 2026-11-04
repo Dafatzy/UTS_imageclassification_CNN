@@ -1,0 +1,2 @@
+# TensorFlow untuk memuat checkpoint hasil Google Colab pada Python 3.13
+tensorflow==2.21.0

@@ -1,0 +1,6 @@
+{
+  "best_custom_cnn_experiment": "E1_custom_cnn_no_augmentation",
+  "best_mobilenetv2_experiment": "E4_mobilenetv2_finetuning",
+  "best_overall_experiment": "E4_mobilenetv2_finetuning",
+  "selection_metric": "validation_macro_f1"
+}

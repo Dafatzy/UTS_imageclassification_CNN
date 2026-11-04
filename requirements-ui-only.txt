@@ -1,0 +1,7 @@
+# Opsional: jalankan tampilan UI tanpa TensorFlow/model (belum dapat melakukan prediksi)
+streamlit>=1.62,<2.0
+numpy>=1.26,<2.2
+pandas>=2.2,<3.0
+Pillow>=10.0,<13.0
+reportlab>=4.2,<5.0
+matplotlib>=3.8,<4.0

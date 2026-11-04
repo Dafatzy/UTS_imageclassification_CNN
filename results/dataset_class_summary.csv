@@ -1,0 +1,7 @@
+class_name,train_original,test,total_labeled
+buildings,2190,437,2627
+forest,2271,474,2745
+glacier,2404,553,2957
+mountain,2511,525,3036
+sea,2274,510,2784
+street,2381,501,2882

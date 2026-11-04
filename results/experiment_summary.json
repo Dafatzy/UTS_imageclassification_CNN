@@ -1,0 +1,86 @@
+{
+  "dataset": "Intel Image Classification",
+  "source": "https://www.kaggle.com/datasets/puneet6060/intel-image-classification",
+  "automatic_download_mirror": "https://huggingface.co/datasets/sfarrukhm/intel-image-classification",
+  "download_method": "huggingface_hub.snapshot_download (public mirror; no kaggle.json upload)",
+  "classes": [
+    "buildings",
+    "forest",
+    "glacier",
+    "mountain",
+    "sea",
+    "street"
+  ],
+  "image_size": [
+    150,
+    150
+  ],
+  "batch_size": 32,
+  "seed": 42,
+  "train_count": 11224,
+  "validation_count": 2807,
+  "test_count": 3000,
+  "experiments": {
+    "E1": {
+      "model": "Custom CNN",
+      "augmentation": false,
+      "max_epochs": 30,
+      "learning_rate": 0.001
+    },
+    "E2": {
+      "model": "Custom CNN",
+      "augmentation": true,
+      "max_epochs": 30,
+      "learning_rate": 0.001
+    },
+    "E3": {
+      "model": "MobileNetV2 feature extraction",
+      "augmentation": true,
+      "max_epochs": 15,
+      "learning_rate": 0.001
+    },
+    "E4": {
+      "model": "MobileNetV2 fine-tuning",
+      "augmentation": true,
+      "max_epochs": 10,
+      "learning_rate": 1e-05,
+      "unfrozen_backbone_layers": 30
+    }
+  },
+  "model_selection": {
+    "best_custom_cnn_experiment": "E1_custom_cnn_no_augmentation",
+    "best_mobilenetv2_experiment": "E4_mobilenetv2_finetuning",
+    "best_overall_experiment": "E4_mobilenetv2_finetuning",
+    "selection_metric": "validation_macro_f1"
+  },
+  "test_metrics": [
+    {
+      "experiment": "E1_custom_cnn_no_augmentation",
+      "accuracy": 0.8753333333333333,
+      "macro_precision": 0.8768222407192251,
+      "macro_recall": 0.8766347783512768,
+      "macro_f1": 0.8757567039017603
+    },
+    {
+      "experiment": "E2_custom_cnn_with_augmentation",
+      "accuracy": 0.8343333333333334,
+      "macro_precision": 0.8370421743606725,
+      "macro_recall": 0.8381399746517174,
+      "macro_f1": 0.8344359606154507
+    },
+    {
+      "experiment": "E3_mobilenetv2_feature_extraction",
+      "accuracy": 0.9116666666666666,
+      "macro_precision": 0.9130385732857622,
+      "macro_recall": 0.9146036550523474,
+      "macro_f1": 0.9135998990355659
+    },
+    {
+      "experiment": "E4_mobilenetv2_finetuning",
+      "accuracy": 0.9106666666666666,
+      "macro_precision": 0.9120654433777239,
+      "macro_recall": 0.9136340893444207,
+      "macro_f1": 0.9127737054438271
+    }
+  ]
+}
